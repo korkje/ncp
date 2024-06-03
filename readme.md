@@ -5,8 +5,8 @@ Generates the n-fold Cartesian product of the given iterables.
 ```ts
 import ncp from "jsr:@korkje/ncp";
 
-for (const product of ncp([1, 2], [3, 4], [5, 6])) {
-    console.log(product);
+for (const row of ncp([1, 2], [3, 4], [5, 6])) {
+    console.log(row);
 }
 
 // Output:
@@ -23,9 +23,9 @@ for (const product of ncp([1, 2], [3, 4], [5, 6])) {
 The default export is a function generator, but a function that returns an array can be imported as well:
 
 ```ts
-import { array } from "jsr:@korkje/ncp/lib/array";
+import { array } from "jsr:@korkje/ncp";
 
-const products = array([1, 2], [3, 4], [5, 6]);
+const product = array([1, 2], [3, 4], [5, 6]);
 ```
 
 This is quite a bit faster than the generator at creating the whole product at once, but the generator can be more memory efficient and useful when you might not need all of it.
