@@ -1,0 +1,19 @@
+{
+    "name": "@korkje/ncp",
+    "version": "0.0.0",
+    "exports": "./mod.ts",
+    "publish": {
+        "include": [
+            "mod.ts",
+            "lib/**/*",
+            "license.md",
+            "readme.md"
+        ]
+    },
+    "lock": false,
+    "imports": {
+        "lib/": "./lib/",
+        "@korkje/memz": "jsr:@korkje/memz@^0.1.2",
+        "@std/assert": "jsr:@std/assert@^0.225.3"
+    }
+}
