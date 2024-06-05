@@ -1,5 +1,5 @@
 import M from "@korkje/memz";
-import type { NCP } from "lib/common.ts";
+import { replay, type NCP } from "lib/common.ts";
 
 const createGeneratorFunction: ((n: number) => GeneratorFunction) = M(n => {
     const is = Array.from({ length: n }, (_, i) => i);
@@ -16,6 +16,6 @@ const createGeneratorFunction: ((n: number) => GeneratorFunction) = M(n => {
  * Iteratively generates the n-fold Cartesian product for the given iterables.
  */
 export const generator = <T extends Iterable<unknown>[]>(...iterables: T): Generator<NCP<T>> =>
-    createGeneratorFunction(iterables.length)(iterables) as Generator<NCP<T>>;
+    createGeneratorFunction(iterables.length)(iterables.map(replay)) as Generator<NCP<T>>;
 
 export default generator;

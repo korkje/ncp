@@ -1,5 +1,5 @@
 import M from "@korkje/memz";
-import type { NCP } from "lib/common.ts";
+import { replay, type NCP } from "lib/common.ts";
 
 // deno-lint-ignore ban-types
 const createFunction: ((n: number) => Function) = M(n => {
@@ -19,7 +19,7 @@ const createFunction: ((n: number) => Function) = M(n => {
  */
 export const array = <T extends Iterable<unknown>[]>(...iterables: T): NCP<T>[] => {
     const result: NCP<T>[] = [];
-    createFunction(iterables.length)(iterables, result);
+    createFunction(iterables.length)(iterables.map(replay), result);
     return result;
 };
 
