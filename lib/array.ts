@@ -19,7 +19,9 @@ const createFunction: ((n: number) => Function) = M(n => {
  */
 export const array = <T extends Iterable<unknown>[]>(...iterables: T): NCP<T>[] => {
     const result: NCP<T>[] = [];
-    createFunction(iterables.length)(iterables.map(replay), result);
+    createFunction(iterables.length)(iterables.map(
+        (iterable, i) => i === 0 ? iterable : replay(iterable)
+    ), result);
     return result;
 };
 

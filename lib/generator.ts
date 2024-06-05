@@ -16,6 +16,8 @@ const createGeneratorFunction: ((n: number) => GeneratorFunction) = M(n => {
  * Iteratively generates the n-fold Cartesian product for the given iterables.
  */
 export const generator = <T extends Iterable<unknown>[]>(...iterables: T): Generator<NCP<T>> =>
-    createGeneratorFunction(iterables.length)(iterables.map(replay)) as Generator<NCP<T>>;
+    createGeneratorFunction(iterables.length)(iterables.map(
+        (iterable, i) => i === 0 ? iterable : replay(iterable)
+    )) as Generator<NCP<T>>;
 
 export default generator;
