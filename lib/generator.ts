@@ -1,5 +1,39 @@
 import M from "@korkje/memz";
-import { replay, type NCP } from "lib/common.ts";
+import type { NCP } from "lib/common.ts";
+
+function isIterableIterator<T>(iterable: Iterable<T>): iterable is IterableIterator<T> {
+    // @ts-ignore: This is true for e.g. a generator.
+    return iterable[Symbol.iterator]() === iterable;
+}
+
+class Replay<T> implements Iterable<T> {
+    private cache: T[] = [];
+
+    constructor(private iterable: IterableIterator<T>) {}
+
+    [Symbol.iterator]() {
+        if (this.cache.length) {
+            return this.cache[Symbol.iterator]();
+        }
+
+        return this.generator();
+    }
+
+    private *generator() {
+        for (const value of this.iterable) {
+            this.cache.push(value);
+            yield value;
+        }
+    }
+}
+
+function replay<T>(iterable: Iterable<T>): Iterable<T> {
+    if (isIterableIterator(iterable)) {
+        return new Replay(iterable);
+    }
+
+    return iterable;
+}
 
 const createGeneratorFunction: ((n: number) => GeneratorFunction) = M(n => {
     const is = Array.from({ length: n }, (_, i) => i);

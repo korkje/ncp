@@ -5,7 +5,7 @@
     "exports": "./mod.ts",
     "imports": {
         "@korkje/memz": "jsr:@korkje/memz@^0.1.2",
-        "@korkje/range": "jsr:@korkje/range@^0.1.0",
+        "@korkje/range": "jsr:@korkje/range@^0.2.0",
         "@std/assert": "jsr:@std/assert@^0.225.3",
         "lib/": "./lib/"
     },

@@ -1,5 +1,13 @@
 import M from "@korkje/memz";
-import { replay, type NCP } from "lib/common.ts";
+import type { NCP } from "lib/common.ts";
+
+function spread<T>(iterable: Iterable<T>): Iterable<T> {
+    if (Array.isArray(iterable)) {
+        return iterable;
+    }
+
+    return [...iterable];
+}
 
 // deno-lint-ignore ban-types
 const createFunction: ((n: number) => Function) = M(n => {
@@ -20,7 +28,7 @@ const createFunction: ((n: number) => Function) = M(n => {
 export const array = <T extends Iterable<unknown>[]>(...iterables: T): NCP<T>[] => {
     const result: NCP<T>[] = [];
     createFunction(iterables.length)(iterables.map(
-        (iterable, i) => i === 0 ? iterable : replay(iterable)
+        (iterable, i) => i === 0 ? iterable : spread(iterable)
     ), result);
     return result;
 };
