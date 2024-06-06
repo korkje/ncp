@@ -16,14 +16,23 @@ class Replay<T> implements Iterable<T> {
             return this.cache[Symbol.iterator]();
         }
 
-        return this.generator();
+        return this.iterator();
     }
 
-    private *generator() {
-        for (const value of this.iterable) {
-            this.cache.push(value);
-            yield value;
-        }
+    private iterator() {
+        const iterator = this.iterable[Symbol.iterator]();
+
+        return {
+            next: () => {
+                const result = iterator.next();
+
+                if (!result.done) {
+                    this.cache.push(result.value);
+                }
+
+                return result;
+            }
+        };
     }
 }
 
